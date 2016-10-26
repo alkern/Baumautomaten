@@ -9,7 +9,7 @@ public class Node {
     private final String nodeSymbol;
 
     public Node(String symbol) {
-        this.children = new ArrayList<Node>();
+        this.children = new ArrayList<>();
         this.nodeSymbol = symbol;
     }
 
@@ -39,6 +39,19 @@ public class Node {
             result = result.getChild(i);
         }
         return result;
+    }
+
+    public int getHeight() {
+        if (isLeaf()) {
+            return 0;
+        }
+        int max = 0;
+        for (Node n : children) {
+            if (max < n.getHeight()) {
+                max = n.getHeight();
+            }
+        }
+        return 1 + max;
     }
 
     @Override

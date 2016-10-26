@@ -10,11 +10,11 @@ public class Main {
 
         TreeParser parser = new TreeParser();
         List<Node> trees = parser.parseTreeFile(args[0]);
-        trees.forEach(Main::printWithRoot);
+        trees.forEach(Main::print);
     }
 
-    private static void printWithRoot(Node node) {
-        System.out.println(node + " with Root " + node.getSymbol());
+    private static void print(Node node) {
+        System.out.println(node + " " + node.getHeight());
     }
 
 }
