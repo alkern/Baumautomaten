@@ -7,11 +7,8 @@ public class RecursiveLineParser {
     private int position;
     private String line;
 
-    public RecursiveLineParser() {
-        this.position = 0;
-    }
-
     public Node parseLineToTree(String line) {
+        this.position = 0;
         this.line = line;
         assertBeginsWithBracket();
         return parse();
