@@ -60,4 +60,13 @@ public class RecursiveLineParserTest {
         assertEquals("C", tree.getChild(0, 0).getSymbol());
     }
 
+    @Test
+    public void testRealExample() {
+        Node tree = parser.parseLineToTree("( (S (PP-TMP (IN For) (NP (CD six) (NNS years))) (, ,) (NP-SBJ (NNP T.) " +
+                "(NNP Marshall) (NNP Hahn) (NNP Jr.)) (VP (VBZ has) (VP (VBN made) (NP (JJ corporate) " +
+                "(NNS acquisitions)) (PP-MNR (IN in) (NP (NP (DT the) (NML (NNP George) (NNP Bush)) (NN mode)) " +
+                "(: :) (ADJP (JJ kind) (CC and) (JJ gentle)))))) (. .)) )");
+        assertEquals(5, tree.getCountOfChildren());
+    }
+
 }

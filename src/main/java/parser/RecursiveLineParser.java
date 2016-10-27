@@ -6,30 +6,23 @@ public class RecursiveLineParser {
 
     private int position;
     private String line;
+    private char debug;
 
     public Node parseLineToTree(String line) {
         this.position = 0;
         this.line = line;
-        assertBeginsWithBracket();
         return parse();
     }
 
-    private void assertBeginsWithBracket() {
-        if (currentChar() != '(') throw new RuntimeException("Input has to start with (");
-    }
-
-    private char currentChar() {
-        return line.charAt(position);
-    }
-
     private Node parse() {
-        skipSpecialSigns();
+        assertBeginsWithBracket();
+        position++;
         String symbol = readSymbol(position);
         Node result = new Node(symbol);
-        skipWhitespace();
+        skipChars(' ');
 
-        if (currentChar() == '(') {
-            position++;
+        while (currentChar() == '(') {
+            skipChars(' ');
             result.addChild(parse());
         }
 
@@ -38,30 +31,53 @@ public class RecursiveLineParser {
             return result;
         }
 
-        result.addChild(parse());
+        if (isPositionInRange()) {
+            result.addChild(new Node(readSymbol(position)));
+        }
+        skipChars(' ', ')');
         return result;
     }
 
-    private void skipWhitespace() {
-        while (currentChar() == ' ') {
+    private void assertBeginsWithBracket() {
+        if (currentChar() != '(') throw new RuntimeException("Input has to start with (");
+    }
+
+    private char currentChar() {
+        try {
+            debug = line.charAt(position);
+            return line.charAt(position);
+        } catch (StringIndexOutOfBoundsException e) {
+            return '$';
+        }
+    }
+
+    private void skipChars(char... toSkip) {
+        while (toSkipContainsCurrent(toSkip)) {
             position++;
         }
     }
 
-    private void skipSpecialSigns() {
-        while (isCurrentCharSpecialSign()) {
-            position++;
+    private boolean toSkipContainsCurrent(char[] toSkip) {
+        for (char c : toSkip) {
+            if (c == currentChar()) {
+                return true;
+            }
         }
-    }
-
-    private boolean isCurrentCharSpecialSign() {
-        return currentChar() == ' ' || currentChar() == '(';
+        return false;
     }
 
     private String readSymbol(int startPosition) {
-        while (!isCurrentCharSpecialSign() && currentChar() != ')') {
+        skipToChars(' ', '(', ')');
+        return line.substring(startPosition, position);
+    }
+
+    private void skipToChars(char... toFind) {
+        while (!toSkipContainsCurrent(toFind) && isPositionInRange()) {
             position++;
         }
-        return line.substring(startPosition, position);
+    }
+
+    private boolean isPositionInRange() {
+        return position < line.length();
     }
 }
