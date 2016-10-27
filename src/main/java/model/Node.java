@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Node {
@@ -52,6 +53,28 @@ public class Node {
             }
         }
         return 1 + max;
+    }
+
+    public String getProductions() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getSymbol());
+        builder.append(" ->");
+        for (Node child : children) {
+            builder.append(" ");
+            builder.append(child.getSymbol());
+        }
+        builder.append("\n");
+        return builder.toString();
+    }
+
+    public List<String> getProductionsForWholeTree() {
+        List<String> productions = new LinkedList<>();
+
+        productions.add(getProductions());
+        children.stream().filter(node -> !node.isLeaf())
+                .forEach(node -> productions.addAll(node.getProductionsForWholeTree()));
+
+        return productions;
     }
 
     @Override

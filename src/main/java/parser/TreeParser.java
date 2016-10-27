@@ -25,7 +25,10 @@ public class TreeParser {
         Tokenizer tokenizer = new Tokenizer();
 
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            stream.map(tokenizer::scan).map(parser::parseLineToTree).forEach(trees::add);
+            stream.map(s -> s.substring(2, s.length() - 2))
+                    .map(tokenizer::scan)
+                    .map(parser::parseLineToTree)
+                    .forEach(trees::add);
             return trees;
         } catch (IOException e) {
             System.err.println("File " + fileName + " not found in this folder");
@@ -37,6 +40,7 @@ public class TreeParser {
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
+                line = line.substring(2, line.length() - 2);
                 trees.add(parser.parseLineToTree(tokenizer.scan(line)));
             }
             scanner.close();
