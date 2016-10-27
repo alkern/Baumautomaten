@@ -24,16 +24,25 @@ public class TreeParser {
         RecursiveLineParser parser = new RecursiveLineParser();
         Tokenizer tokenizer = new Tokenizer();
 
+        if (readFileFromCommandLineInSameFolder(fileName, parser, tokenizer)) return trees;
+
+        return readFileFromResourcesDirectory(fileName, parser, tokenizer);
+    }
+
+    private boolean readFileFromCommandLineInSameFolder(String fileName, RecursiveLineParser parser, Tokenizer tokenizer) {
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
             stream.map(s -> s.substring(2, s.length() - 2))
                     .map(tokenizer::scan)
                     .map(parser::parseLineToTree)
                     .forEach(trees::add);
-            return trees;
+            return true;
         } catch (IOException e) {
             System.err.println("File " + fileName + " not found in this folder");
         }
+        return false;
+    }
 
+    private List<Node> readFileFromResourcesDirectory(String fileName, RecursiveLineParser parser, Tokenizer tokenizer) {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(fileName).getFile());
         try (Scanner scanner = new Scanner(file)) {

@@ -39,11 +39,7 @@ public class Tokenizer {
     }
 
     private char currentChar() {
-        try {
-            return line.charAt(position);
-        } catch (StringIndexOutOfBoundsException e) {
-            return '$';
-        }
+        return line.charAt(position);
     }
 
     private void skipChars(char... toSkip) {

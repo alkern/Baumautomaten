@@ -8,7 +8,7 @@ public class Main {
     private static int counter = 1;
 
     public static void main(String[] args) {
-        assert(args.length == 1);
+        assert(args.length == 1) : "Datei muss als einziges Argument gegeben sein";
 
         TreeParser parser = new TreeParser();
         List<Node> trees = parser.parseTreeFile(args[0]);
