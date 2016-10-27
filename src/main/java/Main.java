@@ -10,11 +10,13 @@ public class Main {
 
         TreeParser parser = new TreeParser();
         List<Node> trees = parser.parseTreeFile(args[0]);
-        trees.forEach(Main::print);
+
+        System.out.println("Höhen:");
+        trees.forEach(Main::printHeights);
     }
 
-    private static void print(Node node) {
-        System.out.println(node + " " + node.getHeight());
+    private static void printHeights(Node node) {
+        System.out.println(node.getHeight());
     }
 
 }
