@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Node {
 
@@ -67,8 +65,8 @@ public class Node {
         return builder.toString();
     }
 
-    public List<String> getProductionsForWholeTree() {
-        List<String> productions = new LinkedList<>();
+    public Set<String> getProductionsForWholeTree() {
+        Set<String> productions = new LinkedHashSet<>();
 
         productions.add(getProductions());
         children.stream().filter(node -> !node.isLeaf())
