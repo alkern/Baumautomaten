@@ -22,9 +22,10 @@ public class TreeParser {
     public List<Node> parseTreeFile(String fileName) {
         trees.clear();
         RecursiveLineParser parser = new RecursiveLineParser();
+        Tokenizer tokenizer = new Tokenizer();
 
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            stream.map(parser::parseLineToTree).forEach(trees::add);
+            stream.map(tokenizer::scan).map(parser::parseLineToTree).forEach(trees::add);
             return trees;
         } catch (IOException e) {
             System.err.println("File " + fileName + " not found in this folder");
@@ -36,7 +37,7 @@ public class TreeParser {
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                trees.add(parser.parseLineToTree(line));
+                trees.add(parser.parseLineToTree(tokenizer.scan(line)));
             }
             scanner.close();
         } catch (IOException e) {
