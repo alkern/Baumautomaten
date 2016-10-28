@@ -75,6 +75,15 @@ public class Node {
         return productions;
     }
 
+    public String yield() {
+        if (isLeaf()) {
+            return getSymbol() + " ";
+        }
+        StringBuilder builder = new StringBuilder();
+        children.stream().map(s -> s.yield()).forEach(builder::append);
+        return builder.toString();
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

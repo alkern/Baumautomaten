@@ -118,4 +118,30 @@ public class NodeTest {
         c.addChild(new Node("Grandchild"));
         assertEquals("(Test(Child(Grandchild)))", n.toString());
     }
+
+    @Test
+    public void testYield() {
+        Node root = new Node("S");
+
+        Node c1 = new Node("C1");
+        Node gc1 = new Node("GC");
+        c1.addChild(gc1);
+        root.addChild(c1);
+
+        Node c2 = new Node("C2");
+        Node gc2 = new Node("GC2");
+        Node ggc1 = new Node("GGC1");
+        gc2.addChild(ggc1);
+
+        Node gc3 = new Node("GC3");
+        Node ggc2 = new Node("GGC2");
+        gc3.addChild(ggc2);
+
+        c2.addChild(gc2);
+        c2.addChild(gc3);
+
+        root.addChild(c2);
+
+        assertEquals("GC GGC1 GGC2 ", root.yield());
+    }
 }
