@@ -20,7 +20,7 @@ public class Node {
         children.add(child);
     }
 
-    public boolean isLeaf() {
+    boolean isLeaf() {
         return children.size() == 0;
     }
 
@@ -53,7 +53,7 @@ public class Node {
         return 1 + max;
     }
 
-    public String getProductions() {
+    String getProductions() {
         StringBuilder builder = new StringBuilder();
         builder.append(getSymbol());
         builder.append(" ->");
@@ -75,7 +75,7 @@ public class Node {
         return productions;
     }
 
-    public String yield() {
+    String yield() {
         if (isLeaf()) {
             return getSymbol() + " ";
         }
@@ -99,5 +99,10 @@ public class Node {
 
         builder.append(")");
         return builder.toString();
+    }
+
+    public boolean isTraceTree() {
+        if (this.isLeaf()) return getSymbol().startsWith("*");
+        return children.stream().allMatch(n -> n.isTraceTree());
     }
 }
