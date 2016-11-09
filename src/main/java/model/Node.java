@@ -1,6 +1,7 @@
 package model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Node {
 
@@ -80,7 +81,7 @@ public class Node {
             return getSymbol() + " ";
         }
         StringBuilder builder = new StringBuilder();
-        children.stream().map(s -> s.yield()).forEach(builder::append);
+        children.stream().map(Node::yield).forEach(builder::append);
         return builder.toString();
     }
 
@@ -103,6 +104,12 @@ public class Node {
 
     public boolean isTraceTree() {
         if (this.isLeaf()) return getSymbol().startsWith("*");
-        return children.stream().allMatch(n -> n.isTraceTree());
+        return children.stream().allMatch(Node::isTraceTree);
+    }
+
+    public void removeTraceTrees() {
+        children.stream().filter(n -> !n.isTraceTree()).forEach(Node::removeTraceTrees);
+        List<Node> toRemove = children.stream().filter(Node::isTraceTree).collect(Collectors.toList());
+        toRemove.forEach(n -> children.remove(n));
     }
 }
