@@ -15,18 +15,19 @@ buildscript {
 
 apply plugin: 'kotlin'
 apply plugin: 'java'
+apply plugin: 'idea'
 
 repositories {
     mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: "$junit_version"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 jar {
     manifest {
         attributes 'Main-Class': 'Main'
     }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: "$junit_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

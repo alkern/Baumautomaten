@@ -49,6 +49,7 @@ public class TreeParser {
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
+                if (line.equals("")) break;
                 line = line.substring(2, line.length() - 2);
                 trees.add(parser.parseLineToTree(tokenizer.scan(line)));
             }
