@@ -14,24 +14,26 @@ import java.util.stream.Stream;
 public class TreeParser {
 
     private final List<Node> trees;
+    private final RecursiveLineParser parser;
+    private final Tokenizer tokenizer;
 
     public TreeParser() {
         trees = new ArrayList<>();
+        parser = new RecursiveLineParser();
+        tokenizer = new Tokenizer();
     }
 
     public List<Node> parseTreeFile(String fileName) {
         trees.clear();
-        RecursiveLineParser parser = new RecursiveLineParser();
-        Tokenizer tokenizer = new Tokenizer();
 
-        if (readFileFromCommandLineInSameFolder(fileName, parser, tokenizer)) return trees;
+        if (readFileFromCommandLineInSameFolder(fileName)) return trees;
 
-        return readFileFromResourcesDirectory(fileName, parser, tokenizer);
+        return readFileFromResourcesDirectory(fileName);
     }
 
-    private boolean readFileFromCommandLineInSameFolder(String fileName, RecursiveLineParser parser, Tokenizer tokenizer) {
+    private boolean readFileFromCommandLineInSameFolder(String fileName) {
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            stream.map(s -> s.substring(2, s.length() - 2))
+            stream.map(s -> formatInputTree(s))
                     .map(tokenizer::scan)
                     .map(parser::parseLineToTree)
                     .forEach(trees::add);
@@ -42,7 +44,7 @@ public class TreeParser {
         return false;
     }
 
-    private List<Node> readFileFromResourcesDirectory(String fileName, RecursiveLineParser parser, Tokenizer tokenizer) {
+    private List<Node> readFileFromResourcesDirectory(String fileName) {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(fileName).getFile());
         try (Scanner scanner = new Scanner(file)) {
@@ -50,7 +52,7 @@ public class TreeParser {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 if (line.equals("")) break;
-                line = line.substring(2, line.length() - 2);
+                line = formatInputTree(line);
                 trees.add(parser.parseLineToTree(tokenizer.scan(line)));
             }
             scanner.close();
@@ -58,5 +60,9 @@ public class TreeParser {
             e.printStackTrace();
         }
         return trees;
+    }
+
+    public String formatInputTree(String input) {
+        return input.substring(2, input.length() - 2);
     }
 }
