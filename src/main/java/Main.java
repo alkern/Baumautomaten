@@ -1,4 +1,5 @@
 import model.Node;
+import model.RuleUsageCounter;
 import parser.TreeParser;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class Main {
 
         TreeParser parser = new TreeParser();
         List<Node> trees = parser.parseTreeFile(args[0]);
+        List<Node> treesWithoutTrace = parser.parseTreeFile(args[0].replace("tree", "noTrace"));
 
         System.out.println("\nAufgabe 1:");
         trees.forEach(Main::printHeights);
@@ -21,6 +23,9 @@ public class Main {
 
         System.out.println("\nAufgabe 3:");
         trees.forEach(Main::printTreesWithoutTraceTrees);
+
+        System.out.println("\nAufgabe 4:");
+        printProductionsForWholeFile(treesWithoutTrace);
     }
 
     private static void printHeights(Node node) {
@@ -35,6 +40,13 @@ public class Main {
     private static void printTreesWithoutTraceTrees(Node node) {
         node.removeTraceTrees();
         System.out.println("( " + node + " )");
+    }
+
+    private static void printProductionsForWholeFile(List<Node> trees) {
+        RuleUsageCounter counter = new RuleUsageCounter();
+        trees.stream().map(Node::getProductionsWithDuplicates)
+                .forEach(counter::addRules);
+        counter.print();
     }
 
 }

@@ -1,6 +1,9 @@
 package model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Node {
@@ -21,12 +24,16 @@ public class Node {
         children.add(child);
     }
 
-    boolean isLeaf() {
-        return children.size() == 0;
-    }
-
     public int getCountOfChildren() {
         return children.size();
+    }
+
+    boolean isLeaf() {
+        return getCountOfChildren() == 0;
+    }
+
+    boolean isNode() {
+        return !isLeaf();
     }
 
     public Node getChild(int number) {
@@ -68,11 +75,20 @@ public class Node {
 
     public Set<String> getProductionsForWholeTree() {
         Set<String> productions = new LinkedHashSet<>();
+        return (Set<String>) fillProductions(productions, Node::isNode);
+    }
 
+    public List<String> getProductionsWithDuplicates() {
+        //TODO nur Ableitungen zu Nichtterminalen beachten für Aufgabe 4
+        List<String> productions = new LinkedList<>();
+        return (List<String>) fillProductions(productions, Node::isNode);
+    }
+
+    @NotNull
+    private Collection<String> fillProductions(Collection<String> productions, Predicate<Node> filter) {
         productions.add(getProductions());
-        children.stream().filter(node -> !node.isLeaf())
+        children.stream().filter(filter)
                 .forEach(node -> productions.addAll(node.getProductionsForWholeTree()));
-
         return productions;
     }
 
@@ -92,7 +108,7 @@ public class Node {
         builder.append("(");
         builder.append(getSymbol());
 
-        if (!isLeaf()) {
+        if (isNode()) {
             for (Node n : children) {
                 builder.append(n.toString());
             }
@@ -110,6 +126,6 @@ public class Node {
     public void removeTraceTrees() {
         children.stream().filter(n -> !n.isTraceTree()).forEach(Node::removeTraceTrees);
         List<Node> toRemove = children.stream().filter(Node::isTraceTree).collect(Collectors.toList());
-        toRemove.forEach(n -> children.remove(n));
+        toRemove.forEach(children::remove);
     }
 }

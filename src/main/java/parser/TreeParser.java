@@ -33,31 +33,36 @@ public class TreeParser {
 
     private boolean readFileFromCommandLineInSameFolder(String fileName) {
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            stream.map(s -> formatInputTree(s))
+            stream.map(this::formatInputTree)
                     .map(tokenizer::scan)
                     .map(parser::parseLineToTree)
                     .forEach(trees::add);
             return true;
         } catch (IOException e) {
             System.err.println("File " + fileName + " not found in this folder");
+            return false;
         }
-        return false;
     }
 
     private List<Node> readFileFromResourcesDirectory(String fileName) {
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(fileName).getFile());
-        try (Scanner scanner = new Scanner(file)) {
+        try {
+            File file = new File(classLoader.getResource(fileName).getFile());
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                if (line.equals("")) break;
-                line = formatInputTree(line);
-                trees.add(parser.parseLineToTree(tokenizer.scan(line)));
+            try (Scanner scanner = new Scanner(file)) {
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if (line.equals("")) break;
+                    line = formatInputTree(line);
+                    trees.add(parser.parseLineToTree(tokenizer.scan(line)));
+                }
+                scanner.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            scanner.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.err.println("Datei " + fileName + " wurde nicht im Resources-Verzeichnis gefunden");
+            System.exit(1);
         }
         return trees;
     }

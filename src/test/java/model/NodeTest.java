@@ -144,4 +144,17 @@ public class NodeTest {
 
         assertEquals("GC GGC1 GGC2 ", root.yield());
     }
+
+    @Test
+    public void testGetProductionsWithDoublicate() {
+        Node root = new Node("Root");
+        Node root2 = new Node("Root");
+        root.addChild(new Node("Test"));
+        root.addChild(root2);
+
+        root2.addChild(new Node("Test"));
+        root2.addChild(new Node("Root"));
+
+        assertEquals(2, root.getProductionsWithDuplicates().size());
+    }
 }

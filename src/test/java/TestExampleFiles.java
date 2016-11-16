@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 public class TestExampleFiles {
 
     @Test
-    public void compareExampleFiles() {
+    public void compareExampleFilesForTrace() {
         TreeParser inputParser = new TreeParser();
         List<Node> input = inputParser.parseTreeFile("wsj_0100.tree");
         input.forEach(Node::removeTraceTrees);
