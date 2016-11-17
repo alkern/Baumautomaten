@@ -1,12 +1,12 @@
 package model;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Node {
+
+    public static final String SEPARATOR_ARROW = " ->";
+    public static final String SEPARATOR_EMPTY = "";
 
     private final List<Node> children;
     private final String nodeSymbol;
@@ -32,7 +32,7 @@ public class Node {
         return getCountOfChildren() == 0;
     }
 
-    boolean isNode() {
+    private boolean isNode() {
         return !isLeaf();
     }
 
@@ -61,10 +61,14 @@ public class Node {
         return 1 + max;
     }
 
-    String getProductions() {
+    /**
+     * @param separator Trennezichen zwischen linker und rechter Seite der Produktionsregel
+     * @return Produktionsregel für diesen Node
+     */
+    String getProductions(String separator) {
         StringBuilder builder = new StringBuilder();
         builder.append(getSymbol());
-        builder.append(" ->");
+        builder.append(separator);
         for (Node child : children) {
             builder.append(" ");
             builder.append(child.getSymbol());
@@ -75,20 +79,17 @@ public class Node {
 
     public Set<String> getProductionsForWholeTree() {
         Set<String> productions = new LinkedHashSet<>();
-        return (Set<String>) fillProductions(productions, Node::isNode);
+        productions.add(getProductions(SEPARATOR_ARROW));
+        children.stream().filter(Node::isNode)
+                .forEach(node -> productions.addAll(node.getProductionsForWholeTree()));
+        return productions;
     }
 
     public List<String> getProductionsWithDuplicates() {
-        //TODO nur Ableitungen zu Nichtterminalen beachten für Aufgabe 4
         List<String> productions = new LinkedList<>();
-        return (List<String>) fillProductions(productions, Node::deviatesToNonterminal);
-    }
-
-    @NotNull
-    private Collection<String> fillProductions(Collection<String> productions, Predicate<Node> filter) {
-        productions.add(getProductions());
-        children.stream().filter(filter)
-                .forEach(node -> productions.addAll(node.getProductionsForWholeTree()));
+        productions.add(getProductions(SEPARATOR_EMPTY));
+        List<Node> deviations = children.stream().filter(Node::deviatesToNonterminal).collect(Collectors.toList());
+        deviations.forEach(node -> productions.addAll(node.getProductionsWithDuplicates()));
         return productions;
     }
 
@@ -129,12 +130,12 @@ public class Node {
         toRemove.forEach(children::remove);
     }
 
-    public boolean deviatesToTerminal() {
-        return isNode() && getCountOfChildren() == 1 && getChild(0).isLeaf();
+    boolean deviatesToTerminal() {
+        return getCountOfChildren() == 1 && getChild(0).isLeaf();
     }
 
-    public boolean deviatesToNonterminal() {
-        return !deviatesToTerminal();
+    private boolean deviatesToNonterminal() {
+        return !deviatesToTerminal() && isNode();
     }
 
 }
