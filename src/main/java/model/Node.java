@@ -81,7 +81,7 @@ public class Node {
     public List<String> getProductionsWithDuplicates() {
         //TODO nur Ableitungen zu Nichtterminalen beachten für Aufgabe 4
         List<String> productions = new LinkedList<>();
-        return (List<String>) fillProductions(productions, Node::isNode);
+        return (List<String>) fillProductions(productions, Node::deviatesToNonterminal);
     }
 
     @NotNull
@@ -128,4 +128,13 @@ public class Node {
         List<Node> toRemove = children.stream().filter(Node::isTraceTree).collect(Collectors.toList());
         toRemove.forEach(children::remove);
     }
+
+    public boolean deviatesToTerminal() {
+        return isNode() && getCountOfChildren() == 1 && getChild(0).isLeaf();
+    }
+
+    public boolean deviatesToNonterminal() {
+        return !deviatesToTerminal();
+    }
+
 }

@@ -2,6 +2,8 @@ package model;
 
 import org.junit.Test;
 
+import java.util.Collection;
+
 import static org.junit.Assert.*;
 
 public class NodeTest {
@@ -155,6 +157,25 @@ public class NodeTest {
         root2.addChild(new Node("Test"));
         root2.addChild(new Node("Root"));
 
-        assertEquals(2, root.getProductionsWithDuplicates().size());
+        Collection<String> productions = root.getProductionsWithDuplicates();
+        assertEquals(2, productions.size());
+    }
+
+    @Test
+    public void testTerminalNodeSuccessful() {
+        Node root = new Node("Root");
+        root.addChild(new Node("terminal"));
+        assertTrue(root.deviatesToTerminal());
+    }
+
+    @Test
+    public void testNonterminalNodeSuccessful() {
+        Node root = new Node("Root");
+        Node child = new Node("Child");
+        child.addChild(new Node("terminal"));
+        root.addChild(child);
+
+        assertFalse(root.deviatesToTerminal());
+        assertTrue(child.deviatesToTerminal());
     }
 }
