@@ -1,5 +1,7 @@
 import model.Node;
+import model.RuleUsageCounter;
 import org.junit.Test;
+import parser.TestDataParser;
 import parser.TreeParser;
 
 import java.util.List;
@@ -22,5 +24,23 @@ public class TestExampleFiles {
                 fail();
             }
         }
+    }
+
+    @Test
+    public void compareExampleFilesForGrammar() {
+        TreeParser inputParser = new TreeParser();
+        List<Node> input = inputParser.parseTreeFile("wsj_0100.noTrace");
+
+        TestDataParser testParser = new TestDataParser();
+        List<String> grammar = testParser.readGrammer();
+
+        RuleUsageCounter counter = new RuleUsageCounter(input);
+        List<String> inputGrammar = counter.asStringList();
+
+        inputGrammar.forEach(foundRule -> {
+            if (!grammar.contains(foundRule)) {
+                fail();
+            }
+        });
     }
 }

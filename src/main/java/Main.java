@@ -43,9 +43,7 @@ public class Main {
     }
 
     private static void printProductionsForWholeFile(List<Node> trees) {
-        RuleUsageCounter counter = new RuleUsageCounter();
-        trees.stream().map(Node::getProductionsWithDuplicates)
-                .forEach(counter::addRules);
+        RuleUsageCounter counter = new RuleUsageCounter(trees);
         counter.print();
     }
 
