@@ -6,8 +6,12 @@ import java.util.*
 
 class TestDataParser {
 
-    fun readGrammer(): MutableList<String> {
+    fun readGrammar(): MutableList<String> {
         return readFileFromResourcesDirectory("grammar")
+    }
+
+    fun readLexicon(): MutableList<String> {
+        return readFileFromResourcesDirectory("lexicon")
     }
 
     private fun readFileFromResourcesDirectory(fileName: String): MutableList<String> {

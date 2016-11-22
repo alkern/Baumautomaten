@@ -138,4 +138,14 @@ public class Node {
         return !deviatesToTerminal() && isNode();
     }
 
+    public void writeToLexicon(WordUsageCounter counter) {
+        children.forEach(n -> {
+            if (n.isLeaf()) {
+                counter.addWord(n.getSymbol(), this.getSymbol());
+                return;
+            }
+            n.writeToLexicon(counter);
+        });
+    }
+
 }

@@ -32,7 +32,7 @@ public class TestExampleFiles {
         List<Node> input = inputParser.parseTreeFile("wsj_0100.noTrace");
 
         TestDataParser testParser = new TestDataParser();
-        List<String> grammar = testParser.readGrammer();
+        List<String> grammar = testParser.readGrammar();
 
         RuleUsageCounter counter = new RuleUsageCounter(input);
         List<String> inputGrammar = counter.asStringList();

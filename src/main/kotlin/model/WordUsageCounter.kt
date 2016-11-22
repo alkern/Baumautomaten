@@ -10,8 +10,8 @@ class WordUsageCounter() {
         wordCounter = LinkedHashMap<String, LinkedHashMap<String, Int>>()
     }
 
-    constructor(tree: List<Node>) : this() {
-
+    constructor(trees: List<Node>) : this() {
+        trees.forEach { node -> node.writeToLexicon(this) }
     }
 
     fun addWord(word: String, nonterminal: String) {
@@ -35,9 +35,28 @@ class WordUsageCounter() {
         return nonterminalCounter
     }
 
-
     fun getCountFor(word: String, nonterminal: String): Int {
         return wordCounter[word]?.getOrDefault(nonterminal, 0) ?: 0
+    }
+
+    fun getLexiconAsStrings(): MutableList<String> {
+        val content = LinkedList<String>()
+
+        wordCounter.forEach { word, occurences ->
+            run {
+                val builder = StringBuilder()
+                builder.append(word)
+                builder.append("\t")
+                occurences.forEach { nonterminal, count -> builder.append("$nonterminal $count ") }
+                content.add(builder.toString().trim())
+            }
+        }
+
+        return content
+    }
+
+    fun print() {
+        getLexiconAsStrings().forEach { entry -> System.out.println(entry) }
     }
 }
 

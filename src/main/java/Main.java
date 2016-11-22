@@ -1,5 +1,6 @@
 import model.Node;
 import model.RuleUsageCounter;
+import model.WordUsageCounter;
 import parser.TreeParser;
 
 import java.util.List;
@@ -26,6 +27,9 @@ public class Main {
 
         System.out.println("\nAufgabe 4:");
         printProductionsForWholeFile(treesWithoutTrace);
+
+        System.out.println("\nAufgabe 5:");
+        printLexicon(treesWithoutTrace);
     }
 
     private static void printHeights(Node node) {
@@ -44,6 +48,11 @@ public class Main {
 
     private static void printProductionsForWholeFile(List<Node> trees) {
         RuleUsageCounter counter = new RuleUsageCounter(trees);
+        counter.print();
+    }
+
+    private static void printLexicon(List<Node> treesWithoutTrace) {
+        WordUsageCounter counter = new WordUsageCounter(treesWithoutTrace);
         counter.print();
     }
 

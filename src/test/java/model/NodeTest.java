@@ -178,4 +178,19 @@ public class NodeTest {
         assertFalse(root.deviatesToTerminal());
         assertTrue(child.deviatesToTerminal());
     }
+
+    @Test
+    public void testWriteToDirectory() {
+        Node root = new Node("ROOT");
+        Node child = new Node("CHILD");
+        child.addChild(new Node("terminal"));
+        root.addChild(child);
+
+        WordUsageCounter counter = new WordUsageCounter();
+        root.writeToLexicon(counter);
+        assertEquals(1, counter.getCountFor("terminal", "CHILD"));
+        assertEquals(0, counter.getCountFor("terminal", "Child"));
+        assertEquals(0, counter.getCountFor("terminal", "ROOT"));
+    }
+
 }
