@@ -39,7 +39,7 @@ class WordUsageCounter() {
         return wordCounter[word]?.getOrDefault(nonterminal, 0) ?: 0
     }
 
-    fun getLexiconAsStrings(): MutableList<String> {
+    fun asStringList(): MutableList<String> {
         val content = LinkedList<String>()
 
         wordCounter.forEach { word, occurences ->
@@ -56,7 +56,7 @@ class WordUsageCounter() {
     }
 
     fun print() {
-        getLexiconAsStrings().forEach { entry -> System.out.println(entry) }
+        asStringList().forEach { entry -> System.out.println(entry) }
     }
 }
 

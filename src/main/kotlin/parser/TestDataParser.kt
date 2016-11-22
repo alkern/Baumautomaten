@@ -25,7 +25,7 @@ class TestDataParser {
                     while (scanner.hasNextLine()) {
                         val line = scanner.nextLine()
                         if (line == "") break
-                        productions.add(line.trim() + "\n")
+                        productions.add(line.trim())
                     }
                     scanner.close()
                 }

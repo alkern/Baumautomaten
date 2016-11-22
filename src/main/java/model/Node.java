@@ -73,7 +73,6 @@ public class Node {
             builder.append(" ");
             builder.append(child.getSymbol());
         }
-        builder.append("\n");
         return builder.toString();
     }
 

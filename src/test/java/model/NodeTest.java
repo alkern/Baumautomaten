@@ -71,13 +71,13 @@ public class NodeTest {
         Node n = new Node("Test");
         n.addChild(new Node("C1"));
         n.addChild(new Node("C2"));
-        assertEquals("Test -> C1 C2\n", n.getProductions(Node.SEPARATOR_ARROW));
+        assertEquals("Test -> C1 C2", n.getProductions(Node.SEPARATOR_ARROW));
     }
 
     @Test
     public void testGetProductionsWithoutChildren() {
         Node n = new Node("Test");
-        assertEquals("Test ->\n", n.getProductions(Node.SEPARATOR_ARROW));
+        assertEquals("Test ->", n.getProductions(Node.SEPARATOR_ARROW));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class NodeTest {
         n.addChild(c1);
         c1.addChild(new Node("GC"));
         n.addChild(new Node("C2"));
-        assertEquals("Test -> C1 C2\n", n.getProductions(Node.SEPARATOR_ARROW));
+        assertEquals("Test -> C1 C2", n.getProductions(Node.SEPARATOR_ARROW));
         assertEquals(2, n.getProductionsForWholeTree().size());
     }
 

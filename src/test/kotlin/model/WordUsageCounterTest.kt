@@ -43,8 +43,8 @@ class WordUsageCounterTest {
     fun testGetLexiconAsStrings() {
         counter.addWord("Test", "TEST")
         counter.addWord("Test", "TEST")
-        assertEquals(1, counter.getLexiconAsStrings().size)
-        assertEquals("Test\tTEST 2", counter.getLexiconAsStrings()[0])
+        assertEquals(1, counter.asStringList().size)
+        assertEquals("Test\tTEST 2", counter.asStringList()[0])
     }
 
     @Test
@@ -52,16 +52,16 @@ class WordUsageCounterTest {
         counter.addWord("Test", "TEST")
         counter.addWord("Test", "TEST")
         counter.addWord("Word", "NONTERMINAL")
-        assertEquals(2, counter.getLexiconAsStrings().size)
-        assertEquals("Test\tTEST 2", counter.getLexiconAsStrings()[0])
-        assertEquals("Word\tNONTERMINAL 1", counter.getLexiconAsStrings()[1])
+        assertEquals(2, counter.asStringList().size)
+        assertEquals("Test\tTEST 2", counter.asStringList()[0])
+        assertEquals("Word\tNONTERMINAL 1", counter.asStringList()[1])
     }
 
     @Test
     fun testGetLexiconAsStringsWithTwoNonterminals() {
         counter.addWord("Test", "TEST1")
         counter.addWord("Test", "TEST2")
-        assertEquals(1, counter.getLexiconAsStrings().size)
-        assertEquals("Test\tTEST1 1 TEST2 1", counter.getLexiconAsStrings()[0])
+        assertEquals(1, counter.asStringList().size)
+        assertEquals("Test\tTEST1 1 TEST2 1", counter.asStringList()[0])
     }
 }

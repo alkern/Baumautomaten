@@ -35,7 +35,6 @@ class RuleUsageCounter() {
 
     fun print() {
         ruleCounter.forEach { s, i -> System.out.println(formatRule(s, i)) }
-        println(ruleCounter.size)
     }
 
     fun asStringList(): MutableList<String> {
