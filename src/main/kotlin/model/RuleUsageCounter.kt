@@ -10,7 +10,7 @@ class RuleUsageCounter() {
         ruleCounter = LinkedHashMap<String, Int>()
     }
 
-    constructor(trees: List<Node>) : this() {
+    constructor(trees: MutableList<Node>) : this() {
         trees.map { n -> n.productionsWithDuplicates }
                 .forEach { l -> addRules(l) }
     }
