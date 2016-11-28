@@ -2,17 +2,17 @@ package model
 
 import java.util.*
 
-class WordUsageCounter() {
+class WordUsageCounter(trees: MutableList<Node>) {
 
     private val wordCounter: LinkedHashMap<String, LinkedHashMap<String, Int>>
 
     init {
         wordCounter = LinkedHashMap<String, LinkedHashMap<String, Int>>()
-    }
-
-    constructor(trees: List<Node>) : this() {
         trees.forEach { node -> node.writeToLexicon(this) }
     }
+
+    val size: Int
+        get() = wordCounter.size
 
     fun addWord(word: String, nonterminal: String) {
         if (!wordCounter.containsKey(word)) {
@@ -53,10 +53,6 @@ class WordUsageCounter() {
         }
 
         return content
-    }
-
-    fun print() {
-        asStringList().forEach { entry -> System.out.println(entry) }
     }
 }
 

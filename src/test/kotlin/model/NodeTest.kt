@@ -2,6 +2,7 @@ package model
 
 import org.junit.Assert.*
 import org.junit.Test
+import java.util.*
 
 class NodeTest {
 
@@ -183,7 +184,7 @@ class NodeTest {
         child.addChild(Node("terminal"))
         root.addChild(child)
 
-        val counter = WordUsageCounter()
+        val counter = WordUsageCounter(LinkedList<Node>())
         root.writeToLexicon(counter)
         assertEquals(1, counter.getCountFor("terminal", "CHILD").toLong())
         assertEquals(0, counter.getCountFor("terminal", "Child").toLong())

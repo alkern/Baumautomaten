@@ -5,7 +5,7 @@ import parser.TreeParser
 
 object Main {
 
-    private var counter = 1
+    private var treeCounter = 1
 
     @JvmStatic fun main(args: Array<String>) {
         assert(args.size == 1) { "Datei muss als einziges Argument gegeben sein" }
@@ -35,8 +35,8 @@ object Main {
     }
 
     private fun printTreeWithProductions(node: Node) {
-        println("\nProduktionen von Baum Nr. " + counter++)
-        node.productionsForWholeTree.forEach { print(it) }
+        println("\nProduktionen von Baum Nr. " + treeCounter++)
+        node.productionsForWholeTree.forEach { println(it) }
     }
 
     private fun printTreesWithoutTraceTrees(node: Node) {
@@ -46,12 +46,11 @@ object Main {
 
     private fun printProductionsForWholeFile(trees: MutableList<Node>) {
         val counter = RuleUsageCounter(trees)
-        counter.print()
+        counter.asStringList().forEach { it -> println(it) }
     }
 
-    private fun printLexicon(treesWithoutTrace: List<Node>) {
-        val counter = WordUsageCounter(treesWithoutTrace)
-        counter.print()
+    private fun printLexicon(trees: MutableList<Node>) {
+        val counter = WordUsageCounter(trees)
+        counter.asStringList().forEach { it -> println(it) }
     }
-
 }

@@ -2,19 +2,18 @@ package model
 
 import java.util.*
 
-class RuleUsageCounter() {
+class RuleUsageCounter(trees: MutableList<Node>) {
 
     private val ruleCounter: HashMap<String, Int>
 
     init {
         ruleCounter = LinkedHashMap<String, Int>()
-    }
-
-    constructor(trees: MutableList<Node>) : this() {
         trees.map { n -> n.productionsWithDuplicates }
                 .forEach { l -> addRules(l) }
     }
 
+    val size: Int
+        get() = ruleCounter.size
 
     fun addRules(rules: MutableList<String>) {
         rules.forEach { s -> addRule(s) }
@@ -33,10 +32,6 @@ class RuleUsageCounter() {
         return ruleCounter[rule] ?: 0
     }
 
-    fun print() {
-        ruleCounter.forEach { s, i -> System.out.println(formatRule(s, i)) }
-    }
-
     fun asStringList(): MutableList<String> {
         val productions = LinkedList<String>()
         ruleCounter.forEach { s, i -> productions.add(formatRule(s, i)) }
@@ -46,5 +41,6 @@ class RuleUsageCounter() {
     private fun formatRule(rule: String, counter: Int): String {
         return (counter.toString() + " " + rule)
     }
+
 }
 

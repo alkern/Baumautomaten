@@ -3,14 +3,15 @@ package model
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.util.*
 
 class WordUsageCounterTest {
 
-    private var counter = WordUsageCounter()
+    private var counter = WordUsageCounter(LinkedList<Node>())
 
     @Before
     fun setup() {
-        counter = WordUsageCounter()
+        counter = WordUsageCounter(LinkedList<Node>())
     }
 
     @Test

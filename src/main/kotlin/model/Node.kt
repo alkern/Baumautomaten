@@ -41,9 +41,11 @@ class Node(val symbol: String) {
                 return 0
             }
             var max = 0
-            for (n in children) {
+            children.forEach { n ->
+                run {
                 if (max < n.height) {
                     max = n.height
+                }
                 }
             }
             return 1 + max

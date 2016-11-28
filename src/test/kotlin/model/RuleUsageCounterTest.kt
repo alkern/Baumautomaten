@@ -7,11 +7,11 @@ import java.util.*
 
 class RuleUsageCounterTest {
 
-    var ruleUsageCounter = RuleUsageCounter()
+    var ruleUsageCounter = RuleUsageCounter(LinkedList<Node>())
 
     @Before
     fun setup() {
-        ruleUsageCounter = RuleUsageCounter()
+        ruleUsageCounter = RuleUsageCounter(LinkedList<Node>())
     }
 
     @Test
