@@ -25,6 +25,7 @@ class TreeParser {
         val trees = LinkedList<Node>()
         try {
             Files.lines(Paths.get(fileName))
+                    .filter { s -> !s.isEmpty() }
                     .map { s -> formatInputTree(s) }
                     .map { s -> tokenizer.scan(s) }
                     .map { s -> parser.parseLineToTree(s) }
@@ -47,9 +48,10 @@ class TreeParser {
                 Scanner(file).use { scanner ->
                     while (scanner.hasNextLine()) {
                         var line = scanner.nextLine()
-                        if (line == "") break
-                        line = formatInputTree(line)
-                        trees.add(parser.parseLineToTree(tokenizer.scan(line)))
+                        if (line.startsWith("(")) {
+                            line = formatInputTree(line)
+                            trees.add(parser.parseLineToTree(tokenizer.scan(line)))
+                        }
                     }
                     scanner.close()
                 }
