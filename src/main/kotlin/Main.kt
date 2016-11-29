@@ -2,6 +2,7 @@ import model.Node
 import model.RuleUsageCounter
 import model.WordUsageCounter
 import parser.TreeParser
+import java.util.*
 
 object Main {
 
@@ -12,7 +13,12 @@ object Main {
 
         val parser = TreeParser()
         val trees = parser.parseTreeFile(args[0])
-        val treesWithoutTrace = parser.parseTreeFile(args[0].replace("tree", "noTrace"))
+        var treesWithoutTrace = parser.parseTreeFile(args[0].replace("tree", "noTrace"))
+
+        if (treesWithoutTrace.size == 0) {
+            treesWithoutTrace = LinkedList<Node>(trees)
+            treesWithoutTrace.forEach { tree -> tree.removeTraceTrees() }
+        }
 
         println("\nAufgabe 1:")
         trees.forEach { printHeights(it) }
