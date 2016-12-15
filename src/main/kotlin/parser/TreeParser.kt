@@ -17,7 +17,7 @@ class TreeParser {
         tokenizer = Tokenizer()
     }
 
-    fun parseTreeFile(fileName: String): MutableList<Node> {
+    fun parseTreeFile(fileName: String): MutableList<Node>? {
         return readFileFromCommandLineInSameFolder(fileName) ?: readFileFromResourcesDirectory(fileName)
     }
 
@@ -38,7 +38,7 @@ class TreeParser {
 
     }
 
-    private fun readFileFromResourcesDirectory(fileName: String): MutableList<Node> {
+    private fun readFileFromResourcesDirectory(fileName: String): MutableList<Node>? {
         val trees = LinkedList<Node>()
         val classLoader = javaClass.classLoader
         try {
@@ -61,7 +61,7 @@ class TreeParser {
 
         } catch (e: NullPointerException) {
             System.err.println("Datei $fileName wurde nicht im Resources-Verzeichnis gefunden")
-            System.exit(1)
+            return null
         }
 
         return trees

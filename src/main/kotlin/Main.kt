@@ -10,12 +10,9 @@ object Main {
 
         val parser = TreeParser()
         val trees = parser.parseTreeFile(args[0])
-        var treesWithoutTrace = parser.parseTreeFile(args[0].replace("tree", "noTrace"))
-
-        if (treesWithoutTrace.size == 0) {
-            treesWithoutTrace = LinkedList<Node>(trees)
-            treesWithoutTrace.forEach { tree -> tree.removeTraceTrees() }
-        }
+                ?: throw RuntimeException("File ${args[0]} konnte nicht geparst werden")
+        val treesWithoutTrace = parser.parseTreeFile(args[0].replace("tree", "noTrace"))
+                ?: createTraceFreeTreesFrom(trees)
 
         println("\nAufgabe 1:")
         printHeights(trees)
@@ -39,6 +36,12 @@ object Main {
         printRegularProductions(treesWithoutTrace)
     }
 
+    private fun createTraceFreeTreesFrom(trees: MutableList<Node>?): MutableList<Node> {
+        val treesWithoutTrace = LinkedList<Node>(trees)
+        treesWithoutTrace.forEach { it.removeTraceTrees() }
+        return treesWithoutTrace
+    }
+
     private fun printHeights(trees: MutableList<Node>) {
         trees.forEach { println(it.height) }
     }
@@ -46,19 +49,15 @@ object Main {
     private fun printTreeWithProductions(trees: MutableList<Node>) {
         var treeCounter = 1
         trees.forEach { tree ->
-            run {
-                println("\nProduktionen von Baum Nr. " + treeCounter++)
-                tree.productionsForWholeTree.forEach { println(it) }
-            }
+            println("\nProduktionen von Baum Nr. " + treeCounter++)
+            tree.productionsForWholeTree.forEach { println(it) }
         }
     }
 
     private fun printTreesWithoutTraceTrees(trees: MutableList<Node>) {
         trees.forEach {
-            run {
-                it.removeTraceTrees()
-                println("( $it )")
-            }
+            it.removeTraceTrees()
+            println("( $it )")
         }
     }
 
@@ -80,6 +79,5 @@ object Main {
     private fun printRegularProductions(trees: MutableList<Node>) {
         val regularRules = RegularRuleCollector(trees)
         regularRules.print()
-        println(regularRules.size)
     }
 }

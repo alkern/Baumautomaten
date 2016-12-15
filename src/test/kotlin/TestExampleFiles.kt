@@ -13,13 +13,13 @@ class TestExampleFiles {
     fun compareExampleTraceFile() {
         val inputParser = TreeParser()
         val input = inputParser.parseTreeFile("wsj_0100.tree")
-        input.forEach { it.removeTraceTrees() }
+        input!!.forEach { it.removeTraceTrees() }
 
         val testDataParser = TreeParser()
         val testData = testDataParser.parseTreeFile("wsj_0100.noTrace")
 
         input.indices
-                .filter { input[it].toString() != testData[it].toString() }
+                .filter { input[it].toString() != testData!![it].toString() }
                 .forEach { fail() }
     }
 
@@ -31,7 +31,7 @@ class TestExampleFiles {
         val testParser = TestDataParser()
         val grammar = testParser.readGrammar()
 
-        val counter = RuleUsageCounter(input)
+        val counter = RuleUsageCounter(input!!)
         val inputGrammar = counter.asStringList()
 
         inputGrammar.forEach { foundRule ->
@@ -49,7 +49,7 @@ class TestExampleFiles {
         val testParser = TestDataParser()
         val grammar = testParser.readLexicon()
 
-        val counter = WordUsageCounter(input)
+        val counter = WordUsageCounter(input!!)
         val inputGrammar = counter.asStringList()
 
         assertEquals(grammar.size.toLong(), inputGrammar.size.toLong())
@@ -63,7 +63,7 @@ class TestExampleFiles {
         val testParser = TestDataParser()
         val regularRulesSolution = testParser.readRegularRules()
 
-        val regularRules = RegularRuleCollector(input)
+        val regularRules = RegularRuleCollector(input!!)
 
         assertEquals(regularRules.size, regularRulesSolution.size)
     }
