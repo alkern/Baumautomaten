@@ -73,6 +73,14 @@ class NodeTest {
     }
 
     @Test
+    fun testGetRegularProductionsWithChildren() {
+        val n = Node("Test")
+        n.addChild(Node("C1"))
+        n.addChild(Node("C2"))
+        assertEquals("q_Test -> Test(C1 C2)", n.getRegularProductions(Node.SEPARATOR_ARROW))
+    }
+
+    @Test
     fun testGetProductionsWithoutChildren() {
         val n = Node("Test")
         assertEquals("Test ->", n.getProductions(Node.SEPARATOR_ARROW))
@@ -189,6 +197,14 @@ class NodeTest {
         assertEquals(1, counter.getCountFor("terminal", "CHILD").toLong())
         assertEquals(0, counter.getCountFor("terminal", "Child").toLong())
         assertEquals(0, counter.getCountFor("terminal", "ROOT").toLong())
+    }
+
+    @Test
+    fun testBaseCategoryFormatting() {
+        assertEquals("S", Node("S").baseCategory)
+        assertEquals("S", Node("S-1").baseCategory)
+        assertEquals("S", Node("S=1").baseCategory)
+        assertEquals("S", Node("S=1-1").baseCategory)
     }
 
 }

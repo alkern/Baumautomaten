@@ -1,3 +1,4 @@
+import model.RegularRuleCollector
 import model.RuleUsageCounter
 import model.WordUsageCounter
 import org.junit.Assert.assertEquals
@@ -17,11 +18,9 @@ class TestExampleFiles {
         val testDataParser = TreeParser()
         val testData = testDataParser.parseTreeFile("wsj_0100.noTrace")
 
-        for (x in input.indices) {
-            if (input[x].toString() != testData[x].toString()) {
-                fail()
-            }
-        }
+        input.indices
+                .filter { input[it].toString() != testData[it].toString() }
+                .forEach { fail() }
     }
 
     @Test
@@ -54,6 +53,19 @@ class TestExampleFiles {
         val inputGrammar = counter.asStringList()
 
         assertEquals(grammar.size.toLong(), inputGrammar.size.toLong())
+    }
+
+    @Test
+    fun compareRegularRulesToSolution() {
+        val inputParser = TreeParser()
+        val input = inputParser.parseTreeFile("wsj_0100.noTrace")
+
+        val testParser = TestDataParser()
+        val regularRulesSolution = testParser.readRegularRules()
+
+        val regularRules = RegularRuleCollector(input)
+
+        assertEquals(regularRules.size, regularRulesSolution.size)
     }
 
 }

@@ -1,7 +1,4 @@
-import model.Node
-import model.RootSymbolCounter
-import model.RuleUsageCounter
-import model.WordUsageCounter
+import model.*
 import parser.TreeParser
 import java.util.*
 
@@ -37,6 +34,9 @@ object Main {
 
         println("\nAufgabe 6:")
         printProbabilities(treesWithoutTrace)
+
+        println("\nAufgabe 7:")
+        printRegularProductions(treesWithoutTrace)
     }
 
     private fun printHeights(trees: MutableList<Node>) {
@@ -75,5 +75,11 @@ object Main {
     private fun printProbabilities(trees: MutableList<Node>) {
         val counter = RootSymbolCounter(trees)
         counter.print()
+    }
+
+    private fun printRegularProductions(trees: MutableList<Node>) {
+        val regularRules = RegularRuleCollector(trees)
+        regularRules.print()
+        println(regularRules.size)
     }
 }

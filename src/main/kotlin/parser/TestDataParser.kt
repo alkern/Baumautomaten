@@ -14,6 +14,10 @@ class TestDataParser {
         return readFileFromResourcesDirectory("lexicon")
     }
 
+    fun readRegularRules(): MutableList<String> {
+        return readFileFromResourcesDirectory("wta")
+    }
+
     private fun readFileFromResourcesDirectory(fileName: String): MutableList<String> {
         val productions = LinkedList<String>()
         val classLoader = javaClass.classLoader
