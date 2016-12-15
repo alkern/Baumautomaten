@@ -1,4 +1,5 @@
 import model.Node
+import model.RootSymbolCounter
 import model.RuleUsageCounter
 import model.WordUsageCounter
 import parser.TreeParser
@@ -34,6 +35,9 @@ object Main {
 
         println("\nAufgabe 5:")
         printLexicon(treesWithoutTrace)
+
+        println("\nAufgabe 6:")
+        printProbabilities(treesWithoutTrace)
     }
 
     private fun printHeights(node: Node) {
@@ -52,11 +56,16 @@ object Main {
 
     private fun printProductionsForWholeFile(trees: MutableList<Node>) {
         val counter = RuleUsageCounter(trees)
-        counter.asStringList().forEach { it -> println(it) }
+        counter.asStringList().forEach { println(it) }
     }
 
     private fun printLexicon(trees: MutableList<Node>) {
         val counter = WordUsageCounter(trees)
-        counter.asStringList().forEach { it -> println(it) }
+        counter.asStringList().forEach { println(it) }
+    }
+
+    private fun printProbabilities(trees: MutableList<Node>) {
+        val counter = RootSymbolCounter(trees)
+        counter.print()
     }
 }

@@ -144,7 +144,6 @@ class Node(val symbol: String) {
     }
 
     companion object {
-
         val SEPARATOR_ARROW = " ->"
         val SEPARATOR_EMPTY = ""
     }
