@@ -22,12 +22,13 @@ class RootSymbolCounter(trees: MutableList<Node>) {
         return rootTable[symbol] ?: 0
     }
 
-    fun evaluatePropabilityOf(symbol: String): Double {
+    fun evaluateProbabilityOf(symbol: String): Double {
+        assert(rootTable.values.sum() == treeCounter)
         return getCounterFor(symbol).toDouble() / treeCounter.toDouble()
     }
 
     fun print() {
         println("q_")
-        rootTable.keys.forEach { println("q_ -> q_$it # ${evaluatePropabilityOf(it)}") }
+        rootTable.keys.forEach { println("q_ -> q_$it # ${evaluateProbabilityOf(it)}") }
     }
 }

@@ -29,27 +29,13 @@ class Node(val symbol: String) {
 
     fun getChild(vararg numbers: Int): Node {
         var result = this
-        for (i in numbers) {
-            result = result.getChild(i)
-        }
+        numbers.forEach { result = result.getChild(it) }
         return result
     }
 
     val height: Int
-        get() {
-            if (isLeaf) {
-                return 0
-            }
-            var max = 0
-            children.forEach { n ->
-                run {
-                if (max < n.height) {
-                    max = n.height
-                }
-                }
-            }
-            return 1 + max
-        }
+        get() = (children.maxBy { it.height }?.height ?: -1) + 1
+
 
     /**
      * @param separator Trennezichen zwischen linker und rechter Seite der Produktionsregel
@@ -60,10 +46,7 @@ class Node(val symbol: String) {
         val builder = StringBuilder()
         builder.append(symbol)
         builder.append(separator)
-        for (child in children) {
-            builder.append(" ")
-            builder.append(child.symbol)
-        }
+        children.forEach { builder.append(" ${it.symbol}") }
         return builder.toString()
     }
 
@@ -71,8 +54,8 @@ class Node(val symbol: String) {
         get() {
             val productions = LinkedHashSet<String>()
             productions.add(getProductions(SEPARATOR_ARROW))
-            children.filter { n -> n.isNode }
-                    .forEach { node -> productions.addAll(node.productionsForWholeTree) }
+            children.filter { it.isNode }
+                    .forEach { productions.addAll(it.productionsForWholeTree) }
             return productions
         }
 
@@ -81,9 +64,9 @@ class Node(val symbol: String) {
             val productions = LinkedList<String>()
             productions.add(getProductions(SEPARATOR_EMPTY))
             val deviations = LinkedHashSet<Node>()
-            children.filter { n -> n.deviatesToNonterminal() }
+            children.filter { it.deviatesToNonterminal() }
                     .toCollection(deviations)
-            deviations.forEach { node -> productions.addAll(node.productionsWithDuplicates) }
+            deviations.forEach { productions.addAll(it.productionsWithDuplicates) }
             return productions
         }
 
@@ -92,7 +75,7 @@ class Node(val symbol: String) {
             return symbol + " "
         }
         val builder = StringBuilder()
-        children.map { n -> n.yieldOperation() }.forEach { n -> builder.append(n) }
+        children.map { it.yieldOperation() }.forEach { builder.append(it) }
         return builder.toString()
     }
 
@@ -103,9 +86,7 @@ class Node(val symbol: String) {
         builder.append(symbol)
 
         if (isNode) {
-            for (n in children) {
-                builder.append(n.toString())
-            }
+            children.forEach { builder.append(it.toString()) }
         }
 
         builder.append(")")
@@ -115,13 +96,13 @@ class Node(val symbol: String) {
     val isTraceTree: Boolean
         get() {
             if (this.isLeaf) return symbol.startsWith("*")
-            return children.all { n -> n.isTraceTree }
+            return children.all { it.isTraceTree }
         }
 
     fun removeTraceTrees() {
-        children.filter { n -> !n.isTraceTree }.forEach { n -> n.removeTraceTrees() }
+        children.filter { !it.isTraceTree }.forEach { it.removeTraceTrees() }
         val toRemove = LinkedList<Node>()
-        children.filter { n -> n.isTraceTree }.toCollection(toRemove)
+        children.filter { it.isTraceTree }.toCollection(toRemove)
         toRemove.forEach { children.remove(it) }
     }
 
@@ -134,12 +115,12 @@ class Node(val symbol: String) {
     }
 
     fun writeToLexicon(counter: WordUsageCounter) {
-        children.forEach { n ->
-            if (n.isLeaf) {
-                counter.addWord(n.symbol, this.symbol)
+        children.forEach {
+            if (it.isLeaf) {
+                counter.addWord(it.symbol, this.symbol)
                 return
             }
-            n.writeToLexicon(counter)
+            it.writeToLexicon(counter)
         }
     }
 

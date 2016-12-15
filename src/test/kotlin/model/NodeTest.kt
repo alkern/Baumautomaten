@@ -146,7 +146,7 @@ class NodeTest {
     }
 
     @Test
-    fun testGetProductionsWithDoublicate() {
+    fun testGetProductionsWithDuplicate() {
         val root = Node("Root")
         val root2 = Node("Root")
         root.addChild(Node("Test"))

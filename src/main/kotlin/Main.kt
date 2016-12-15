@@ -7,7 +7,6 @@ import java.util.*
 
 object Main {
 
-    private var treeCounter = 1
 
     @JvmStatic fun main(args: Array<String>) {
         assert(args.size == 1) { "Datei muss als einziges Argument gegeben sein" }
@@ -22,13 +21,13 @@ object Main {
         }
 
         println("\nAufgabe 1:")
-        trees.forEach { printHeights(it) }
+        printHeights(trees)
 
         println("\nAufgabe 2:")
-        trees.forEach { printTreeWithProductions(it) }
+        printTreeWithProductions(trees)
 
         println("\nAufgabe 3:")
-        trees.forEach { printTreesWithoutTraceTrees(it) }
+        printTreesWithoutTraceTrees(trees)
 
         println("\nAufgabe 4:")
         printProductionsForWholeFile(treesWithoutTrace)
@@ -40,18 +39,27 @@ object Main {
         printProbabilities(treesWithoutTrace)
     }
 
-    private fun printHeights(node: Node) {
-        println(node.height)
+    private fun printHeights(trees: MutableList<Node>) {
+        trees.forEach { println(it.height) }
     }
 
-    private fun printTreeWithProductions(node: Node) {
-        println("\nProduktionen von Baum Nr. " + treeCounter++)
-        node.productionsForWholeTree.forEach { println(it) }
+    private fun printTreeWithProductions(trees: MutableList<Node>) {
+        var treeCounter = 1
+        trees.forEach { tree ->
+            run {
+                println("\nProduktionen von Baum Nr. " + treeCounter++)
+                tree.productionsForWholeTree.forEach { println(it) }
+            }
+        }
     }
 
-    private fun printTreesWithoutTraceTrees(node: Node) {
-        node.removeTraceTrees()
-        println("( $node )")
+    private fun printTreesWithoutTraceTrees(trees: MutableList<Node>) {
+        trees.forEach {
+            run {
+                it.removeTraceTrees()
+                println("( $it )")
+            }
+        }
     }
 
     private fun printProductionsForWholeFile(trees: MutableList<Node>) {

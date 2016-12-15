@@ -41,10 +41,10 @@ class RootSymbolCounterTest {
         counter.addRootSymbol("Root1")
         counter.addRootSymbol("Root2")
 
-        assertEquals(0.4, counter.evaluatePropabilityOf("Root1"), 0.05)
-        assertEquals(0.4, counter.evaluatePropabilityOf("Root2"), 0.05)
-        assertEquals(0.2, counter.evaluatePropabilityOf("Root3"), 0.05)
-        assertEquals(0.0, counter.evaluatePropabilityOf("Root4"), 0.0)
+        assertEquals(0.4, counter.evaluateProbabilityOf("Root1"), 0.05)
+        assertEquals(0.4, counter.evaluateProbabilityOf("Root2"), 0.05)
+        assertEquals(0.2, counter.evaluateProbabilityOf("Root3"), 0.05)
+        assertEquals(0.0, counter.evaluateProbabilityOf("Root4"), 0.0)
     }
 
 }
