@@ -15,9 +15,7 @@ class RegularRuleCollector(trees: MutableList<Node>) {
     }
 
     val size: Int
-        get() {
-            return sortedRegularRules.size
-        }
+        get() = sortedRegularRules.size
 
     fun print() {
         sortedRegularRules.forEach { println(it) }

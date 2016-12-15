@@ -4,7 +4,6 @@ import java.util.*
 
 object Main {
 
-
     @JvmStatic fun main(args: Array<String>) {
         assert(args.size == 1) { "Datei muss als einziges Argument gegeben sein" }
 
@@ -49,7 +48,7 @@ object Main {
     private fun printTreeWithProductions(trees: MutableList<Node>) {
         var treeCounter = 1
         trees.forEach { tree ->
-            println("\nProduktionen von Baum Nr. " + treeCounter++)
+            println("\nProduktionen von Baum Nr. ${treeCounter++}")
             tree.productionsForWholeTree.forEach { println(it) }
         }
     }

@@ -36,7 +36,6 @@ class Node(val symbol: String) {
     val height: Int
         get() = (children.maxBy { it.height }?.height ?: -1) + 1
 
-
     /**
      * @param separator Trennezichen zwischen linker und rechter Seite der Produktionsregel
      * *

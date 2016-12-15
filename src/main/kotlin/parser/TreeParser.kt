@@ -25,14 +25,14 @@ class TreeParser {
         val trees = LinkedList<Node>()
         try {
             Files.lines(Paths.get(fileName))
-                    .filter { s -> !s.isEmpty() }
-                    .map { s -> formatInputTree(s) }
-                    .map { s -> tokenizer.scan(s) }
-                    .map { s -> parser.parseLineToTree(s) }
-                    .forEach { s -> trees.add(s) }
+                    .filter { !it.isEmpty() }
+                    .map { formatInputTree(it) }
+                    .map { tokenizer.scan(it) }
+                    .map { parser.parseLineToTree(it) }
+                    .forEach { trees.add(it) }
             return trees
         } catch (e: IOException) {
-            System.err.println("File $fileName not found in this folder")
+//            System.err.println("File $fileName not found in this folder")
             return null
         }
 
@@ -60,7 +60,7 @@ class TreeParser {
             }
 
         } catch (e: NullPointerException) {
-            System.err.println("Datei $fileName wurde nicht im Resources-Verzeichnis gefunden")
+//            System.err.println("Datei $fileName wurde nicht im Resources-Verzeichnis gefunden")
             return null
         }
 

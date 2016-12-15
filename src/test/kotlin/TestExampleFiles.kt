@@ -34,11 +34,9 @@ class TestExampleFiles {
         val counter = RuleUsageCounter(input!!)
         val inputGrammar = counter.asStringList()
 
-        inputGrammar.forEach { foundRule ->
-            if (!grammar.contains(foundRule)) {
-                fail()
-            }
-        }
+        inputGrammar
+                .filter { !grammar.contains(it) }
+                .forEach { fail() }
     }
 
     @Test
@@ -67,5 +65,4 @@ class TestExampleFiles {
 
         assertEquals(regularRules.size, regularRulesSolution.size)
     }
-
 }

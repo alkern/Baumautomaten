@@ -8,7 +8,7 @@ class WordUsageCounter(trees: MutableList<Node>) {
 
     init {
         wordCounter = LinkedHashMap<String, LinkedHashMap<String, Int>>()
-        trees.forEach { node -> node.writeToLexicon(this) }
+        trees.forEach { it.writeToLexicon(this) }
     }
 
     val size: Int

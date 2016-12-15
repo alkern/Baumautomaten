@@ -8,15 +8,15 @@ class RuleUsageCounter(trees: MutableList<Node>) {
 
     init {
         ruleCounter = LinkedHashMap<String, Int>()
-        trees.map { n -> n.productionsWithDuplicates }
-                .forEach { l -> addRules(l) }
+        trees.map { it.productionsWithDuplicates }
+                .forEach { addRules(it) }
     }
 
     val size: Int
         get() = ruleCounter.size
 
     fun addRules(rules: MutableList<String>) {
-        rules.forEach { s -> addRule(s) }
+        rules.forEach { addRule(it) }
     }
 
     fun addRule(rule: String) {
@@ -34,7 +34,7 @@ class RuleUsageCounter(trees: MutableList<Node>) {
 
     fun asStringList(): MutableList<String> {
         val productions = LinkedList<String>()
-        ruleCounter.forEach { s, i -> productions.add(formatRule(s, i)) }
+        ruleCounter.forEach { rule, counter -> productions.add(formatRule(rule, counter)) }
         return productions
     }
 
