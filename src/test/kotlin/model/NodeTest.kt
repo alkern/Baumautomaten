@@ -77,7 +77,7 @@ class NodeTest {
         val n = Node("Test")
         n.addChild(Node("C1"))
         n.addChild(Node("C2"))
-        assertEquals("q_Test -> Test(C1 C2)", n.getRegularProductions(Node.SEPARATOR_ARROW))
+        assertEquals("q_Test -> Test(C1 C2)", n.getRegularProductions(Node.SEPARATOR_ARROW).toString())
     }
 
     @Test
