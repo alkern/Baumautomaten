@@ -50,16 +50,14 @@ class Node(val symbol: String) {
         return builder.toString()
     }
 
-    fun getRegularProductions(separator: String): String {
+    fun getRegularProductions(separator: String): RegularRule {
         val builder = StringBuilder()
-        builder.append("q_$symbol")
-        builder.append(separator)
         builder.append(" $baseCategory(")
         val joiner = StringJoiner(" ")
         children.map { it.formatAsRegularSymbol() }
                 .forEach { joiner.add(it) }
         builder.append("$joiner)")
-        return builder.toString()
+        return RegularRule(symbol, separator, builder.toString())
     }
 
     fun formatAsRegularSymbol(): String {
@@ -85,9 +83,9 @@ class Node(val symbol: String) {
             return productions
         }
 
-    val regularProductionsForWholeTree: MutableSet<String>
+    val regularProductionsForWholeTree: MutableSet<RegularRule>
         get() {
-            val productions = LinkedHashSet<String>()
+            val productions = LinkedHashSet<RegularRule>()
             productions.add(getRegularProductions(SEPARATOR_ARROW))
             children.filter { it.isNode }
                     .forEach { productions.addAll(it.regularProductionsForWholeTree) }
