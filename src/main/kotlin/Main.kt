@@ -76,7 +76,7 @@ object Main {
     }
 
     private fun printRegularProductions(trees: MutableList<Node>) {
-        val regularRules = RegularRuleCollector(trees)
+        val regularRules = RegularRuleCounter(trees)
         regularRules.print()
     }
 }

@@ -1,34 +1,29 @@
 package model
 
-import java.util.*
-
 class RootSymbolCounter(trees: MutableList<Node>) {
 
-    val rootTable: MutableMap<String, Int>
-    var treeCounter: Int
+    val rootTable: Counter<String> = Counter()
+    val counter: Int
+        get() = rootTable.sum
 
     init {
-        rootTable = LinkedHashMap<String, Int>()
-        treeCounter = 0
         trees.forEach { addRootSymbol(it.symbol) }
     }
 
     fun addRootSymbol(symbol: String) {
-        rootTable[symbol] = getCounterFor(symbol) + 1
-        treeCounter++
+        rootTable.addValue(symbol)
     }
 
     fun getCounterFor(symbol: String): Int {
-        return rootTable[symbol] ?: 0
+        return rootTable.getCounterFor(symbol)
     }
 
     fun evaluateProbabilityOf(symbol: String): Double {
-        assert(rootTable.values.sum() == treeCounter)
-        return getCounterFor(symbol).toDouble() / treeCounter.toDouble()
+        return getCounterFor(symbol).toDouble() / rootTable.sum.toDouble()
     }
 
     fun print() {
         println("q_")
-        rootTable.keys.forEach { println("q_ -> q_$it # ${evaluateProbabilityOf(it)}") }
+        rootTable.values.forEach { println("q_ -> q_$it # ${evaluateProbabilityOf(it)}") }
     }
 }

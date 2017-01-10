@@ -1,4 +1,4 @@
-import model.RegularRuleCollector
+import model.RegularRuleCounter
 import model.RuleUsageCounter
 import model.WordUsageCounter
 import org.junit.Assert.assertEquals
@@ -61,8 +61,8 @@ class TestExampleFiles {
         val testParser = TestDataParser()
         val regularRulesSolution = testParser.readRegularRules()
 
-        val regularRules = RegularRuleCollector(input!!)
+        val regularRules = RegularRuleCounter(input!!)
 
-        assertEquals(regularRules.size, regularRulesSolution.size)
+        assertEquals(regularRulesSolution.size, regularRules.size)
     }
 }

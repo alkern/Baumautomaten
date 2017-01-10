@@ -19,7 +19,7 @@ class RootSymbolCounterTest {
         assertEquals(2, counter.getCounterFor("Root1"))
         assertEquals(2, counter.getCounterFor("Root2"))
         assertEquals(1, counter.getCounterFor("Root3"))
-        assertEquals(5, counter.treeCounter)
+        assertEquals(5, counter.counter)
     }
 
     @Test
@@ -28,7 +28,7 @@ class RootSymbolCounterTest {
         assertEquals(0, counter.getCounterFor("Root1"))
         assertEquals(0, counter.getCounterFor("Root2"))
         assertEquals(0, counter.getCounterFor("Root3"))
-        assertEquals(0, counter.treeCounter)
+        assertEquals(0, counter.counter)
     }
 
     @Test

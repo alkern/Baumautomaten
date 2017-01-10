@@ -4,10 +4,9 @@ import java.util.*
 
 class RuleUsageCounter(trees: MutableList<Node>) {
 
-    private val ruleCounter: HashMap<String, Int>
+    private val ruleCounter: Counter<String> = Counter()
 
     init {
-        ruleCounter = LinkedHashMap<String, Int>()
         trees.map { it.productionsWithDuplicates }
                 .forEach { addRules(it) }
     }
@@ -20,21 +19,16 @@ class RuleUsageCounter(trees: MutableList<Node>) {
     }
 
     fun addRule(rule: String) {
-        if (ruleCounter.containsKey(rule)) {
-            val count = ruleCounter[rule]
-            ruleCounter[rule] = Integer.valueOf(count!!.plus(1))
-            return
-        }
-        ruleCounter[rule] = 1
+        ruleCounter.addValue(rule)
     }
 
-    fun getCountFor(rule: String): Int {
-        return ruleCounter[rule] ?: 0
+    fun getCounterFor(rule: String): Int {
+        return ruleCounter.getCounterFor(rule)
     }
 
     fun asStringList(): MutableList<String> {
         val productions = LinkedList<String>()
-        ruleCounter.forEach { rule, counter -> productions.add(formatRule(rule, counter)) }
+        ruleCounter.sorted.forEach { productions.add(formatRule(it.key, it.value)) }
         return productions
     }
 

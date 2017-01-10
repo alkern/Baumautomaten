@@ -16,26 +16,26 @@ class RuleUsageCounterTest {
 
     @Test
     fun testSuccessfulAddingOfRule() {
-        assertEquals(0, ruleUsageCounter.getCountFor("Test"))
+        assertEquals(0, ruleUsageCounter.getCounterFor("Test"))
         ruleUsageCounter.addRule("Test")
-        assertEquals(1, ruleUsageCounter.getCountFor("Test"))
+        assertEquals(1, ruleUsageCounter.getCounterFor("Test"))
     }
 
     @Test
     fun testDoubleAddingOfRule() {
-        assertEquals(0, ruleUsageCounter.getCountFor("Test"))
+        assertEquals(0, ruleUsageCounter.getCounterFor("Test"))
         ruleUsageCounter.addRule("Test")
         ruleUsageCounter.addRule("Test")
-        assertEquals(2, ruleUsageCounter.getCountFor("Test"))
+        assertEquals(2, ruleUsageCounter.getCounterFor("Test"))
     }
 
     @Test
     fun testAddingOfRuleList() {
-        assertEquals(0, ruleUsageCounter.getCountFor("Test"))
+        assertEquals(0, ruleUsageCounter.getCounterFor("Test"))
         val rules = LinkedList<String>()
         rules.add("Test")
         rules.add("Test")
         ruleUsageCounter.addRules(rules)
-        assertEquals(2, ruleUsageCounter.getCountFor("Test"))
+        assertEquals(2, ruleUsageCounter.getCounterFor("Test"))
     }
 }
