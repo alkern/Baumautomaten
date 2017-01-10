@@ -28,7 +28,7 @@ class TreeParser {
                     .filter { !it.isEmpty() }
                     .map { formatInputTree(it) }
                     .map { tokenizer.scan(it) }
-                    .map { parser.parseLineToTree(it) }
+                    .map { parser.parseLinesToTree(it) }
                     .forEach { trees.add(it) }
             return trees
         } catch (e: IOException) {
@@ -50,7 +50,7 @@ class TreeParser {
                         var line = scanner.nextLine()
                         if (line.startsWith("(")) {
                             line = formatInputTree(line)
-                            trees.add(parser.parseLineToTree(tokenizer.scan(line)))
+                            trees.add(parser.parseLinesToTree(tokenizer.scan(line)))
                         }
                     }
                     scanner.close()

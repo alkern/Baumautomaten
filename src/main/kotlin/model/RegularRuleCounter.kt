@@ -9,7 +9,7 @@ class RegularRuleCounter(trees: MutableList<Node>) {
         addRulesForStartSymbol(trees)
     }
 
-    fun putRules(rules: Set<RegularRule>) {
+    fun putRules(rules: List<RegularRule>) {
         rules.forEach { putRule(it) }
     }
 

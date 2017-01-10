@@ -19,7 +19,7 @@ class RecursiveLineParserTest {
     @Test
     fun testExceptionForInvalidInput() {
         try {
-            parser!!.parseLineToTree(scanner!!.scan("Invalid)"))
+            parser!!.parseLinesToTree(scanner!!.scan("Invalid)"))
             fail()
         } catch (e: RuntimeException) {
             assertEquals("Input has to start with (", e.message)
@@ -29,13 +29,13 @@ class RecursiveLineParserTest {
 
     @Test
     fun testOneLeaf() {
-        val tree = parser!!.parseLineToTree(scanner!!.scan("(For)"))
+        val tree = parser!!.parseLinesToTree(scanner!!.scan("(For)"))
         assertEquals("For", tree.symbol)
     }
 
     @Test
     fun testOneNodeWithOneLeaf() {
-        val tree = parser!!.parseLineToTree(scanner!!.scan("(IN For)"))
+        val tree = parser!!.parseLinesToTree(scanner!!.scan("(IN For)"))
         assertEquals("IN", tree.symbol)
         assertEquals(1, tree.countOfChildren.toLong())
         assertEquals("For", tree.getChild(0).symbol)
@@ -44,7 +44,7 @@ class RecursiveLineParserTest {
     @Test
     fun testNodeWithTwoChildren() {
         val tokens = scanner!!.scan("(S (IN For) (NNS years))")
-        val tree = parser!!.parseLineToTree(tokens)
+        val tree = parser!!.parseLinesToTree(tokens)
         assertEquals("S", tree.symbol)
         assertEquals(2, tree.countOfChildren.toLong())
         assertEquals("IN", tree.getChild(0).symbol)
@@ -55,7 +55,7 @@ class RecursiveLineParserTest {
 
     @Test
     fun testTreeWithHeightThree() {
-        val tree = parser!!.parseLineToTree(scanner!!.scan("(A (B C))"))
+        val tree = parser!!.parseLinesToTree(scanner!!.scan("(A (B C))"))
         assertEquals("A", tree.symbol)
         assertEquals(1, tree.countOfChildren.toLong())
         assertEquals("B", tree.getChild(0).symbol)
@@ -64,7 +64,7 @@ class RecursiveLineParserTest {
 
     @Test
     fun testRealExample() {
-        val tree = parser!!.parseLineToTree(scanner!!.scan("(S (PP-TMP (IN For) (NP (CD six) (NNS years))) (, ,) (NP-SBJ (NNP T.) " +
+        val tree = parser!!.parseLinesToTree(scanner!!.scan("(S (PP-TMP (IN For) (NP (CD six) (NNS years))) (, ,) (NP-SBJ (NNP T.) " +
                 "(NNP Marshall) (NNP Hahn) (NNP Jr.)) (VP (VBZ has) (VP (VBN made) (NP (JJ corporate) " +
                 "(NNS acquisitions)) (PP-MNR (IN in) (NP (NP (DT the) (NML (NNP George) (NNP Bush)) (NN mode)) " +
                 "(: :) (ADJP (JJ kind) (CC and) (JJ gentle)))))) (. .))"))

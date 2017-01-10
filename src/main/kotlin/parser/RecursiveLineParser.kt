@@ -7,7 +7,7 @@ class RecursiveLineParser {
     private var position: Int = 0
     private var tokens: List<String>? = null
 
-    fun parseLineToTree(tokens: List<String>): Node {
+    fun parseLinesToTree(tokens: List<String>): Node {
         this.position = 1
         this.tokens = tokens
         return parse()

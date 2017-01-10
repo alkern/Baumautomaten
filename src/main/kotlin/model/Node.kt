@@ -82,9 +82,9 @@ class Node(val symbol: String) {
             return productions
         }
 
-    val regularProductionsForWholeTree: MutableSet<RegularRule>
+    val regularProductionsForWholeTree: MutableList<RegularRule>
         get() {
-            val productions = LinkedHashSet<RegularRule>()
+            val productions = LinkedList<RegularRule>()
             productions.add(getRegularProductions(SEPARATOR_ARROW))
             children.filter { it.isNode }
                     .forEach { productions.addAll(it.regularProductionsForWholeTree) }
