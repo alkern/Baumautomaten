@@ -2,7 +2,7 @@ group 'de.werkelmann.master'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.0.5'
+    ext.kotlin_version = '1.0.6'
     ext.junit_version = '4.11'
 
     repositories {

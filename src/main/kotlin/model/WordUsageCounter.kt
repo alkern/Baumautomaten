@@ -4,10 +4,9 @@ import java.util.*
 
 class WordUsageCounter(trees: MutableList<Node>) {
 
-    private val wordCounter: LinkedHashMap<String, LinkedHashMap<String, Int>>
+    private val wordCounter: LinkedHashMap<String, LinkedHashMap<String, Int>> = LinkedHashMap()
 
     init {
-        wordCounter = LinkedHashMap<String, LinkedHashMap<String, Int>>()
         trees.forEach { it.writeToLexicon(this) }
     }
 
